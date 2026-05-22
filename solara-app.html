@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#C8271A">
+<title>Solara – La Luz que Acompaña tu Mente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C8271A;
+    --gold: #E8922A;
+    --cream: #FAF3E8;
+    --deep: #8B1A10;
+    --warm: #F5E6C8;
+    --text: #3D1A0A;
+    --muted: #9B6B45;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ====== SCREENS ====== */
+  .screen {
+    display: none;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 40px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ====== SUN HEADER ====== */
+  .sun-header {
+    width: 100%;
+    background: linear-gradient(160deg, var(--red) 0%, #E03A1E 50%, var(--gold) 100%);
+    padding: 30px 24px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sun-header::before {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    height: 60px;
+    background: var(--cream);
+    border-radius: 50%;
+  }
+
+  .sun-rays {
+    width: 90px;
+    height: 90px;
+    position: relative;
+    animation: rotateSun 20s linear infinite;
+    margin-bottom: 12px;
+  }
+
+  @keyframes rotateSun {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .sun-rays svg { width: 100%; height: 100%; }
+
+  .logo-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    color: white;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .logo-tagline {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* ====== SPLASH / HOME ====== */
+  .home-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 28px 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .home-greeting {
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .home-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    color: var(--red);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .daily-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(200,39,26,0.1);
+    border-left: 4px solid var(--gold);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .daily-card::before {
+    content: '☀';
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    font-size: 5rem;
+    opacity: 0.05;
+  }
+
+  .daily-label {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .daily-phrase {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .daily-advice {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--red), var(--deep));
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: 0 6px 24px rgba(200,39,26,0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+    margin-top: 8px;
+  }
+  .btn-primary:active { transform: scale(0.97); box-shadow: 0 3px 12px rgba(200,39,26,0.25); }
+
+  .btn-secondary {
+    background: white;
+    color: var(--red);
+    border: 2px solid var(--red);
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    max-width: 320px;
+    transition: background 0.15s;
+    margin-top: 10px;
+  }
+  .btn-secondary:active { background: var(--warm); }
+
+  /* ====== TEST ====== */
+  .test-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 40px 24px 20px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--warm);
+    border-radius: 3px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), var(--gold));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  .question-num {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 28px;
+    min-height: 80px;
+  }
+
+  .options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-btn {
+    background: white;
+    border: 2px solid var(--warm);
+    border-radius: 14px;
+    padding: 16px 20px;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .option-btn:hover, .option-btn.selected {
+    border-color: var(--red);
+    background: rgba(200,39,26,0.05);
+  }
+  .option-emoji { font-size: 1.4rem; min-width: 28px; }
+
+  /* ====== REPORT ====== */
+  .report-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 40px 24px;
+  }
+
+  .report-badge {
+    width: 110px;
+    height: 110px;
+    background: linear-gradient(135deg, var(--red), var(--gold));
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 28px rgba(200,39,26,0.3);
+  }
+  .report-emoji { font-size: 2.5rem; }
+  .report-score-num { font-size: 0.7rem; color: white; font-weight: 700; letter-spacing: 1px; }
+
+  .report-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--red);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .report-subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .report-section {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .report-text {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .area-bars { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .area-row { display: flex; flex-direction: column; gap: 4px; }
+  .area-name { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+  .area-track { height: 8px; background: var(--warm); border-radius: 4px; overflow: hidden; }
+  .area-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--red), var(--gold)); transition: width 1s ease 0.3s; }
+
+  /* ====== BOTTOM NAV ====== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid var(--warm);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 14px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 4px 12px;
+    border-radius: 12px;
+    transition: background 0.15s;
+  }
+  .nav-btn.active .nav-icon { color: var(--red); }
+  .nav-btn.active .nav-label { color: var(--red); font-weight: 700; }
+  .nav-icon { font-size: 1.4rem; color: var(--muted); }
+  .nav-label { font-size: 0.65rem; letter-spacing: 0.5px; color: var(--muted); font-weight: 600; }
+
+  /* Spacer for fixed bottom nav */
+  .nav-spacer { height: 70px; }
+
+  /* ====== LOADING ====== */
+  .loading-overlay {
+    position: fixed; inset: 0;
+    background: var(--cream);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.5s;
+  }
+  .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+
+  .sun-spin {
+    width: 80px; height: 80px;
+    animation: rotateSun 2s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  .loading-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--red);
+  }
+  .loading-sub { font-size: 0.8rem; color: var(--muted); margin-top: 4px; letter-spacing: 2px; }
+
+  /* ====== TIPS ====== */
+  .tips-grid { display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 480px; padding: 40px 24px; }
+  .tip-card {
+    background: white;
+    border-radius: 18px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .tip-icon { font-size: 1.6rem; min-width: 36px; }
+  .tip-title { font-weight: 700; font-size: 0.9rem; color: var(--red); margin-bottom: 4px; }
+  .tip-body { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading">
+  <div class="sun-spin">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,5 58,38 88,22 68,48 95,50 68,52 88,78 58,62 50,95 42,62 12,78 32,52 5,50 32,48 12,22 42,38" fill="#C8271A"/>
+      <circle cx="50" cy="50" r="22" fill="#E8922A"/>
+    </svg>
+  </div>
+  <div class="loading-text">Solara</div>
+  <div class="loading-sub">Encendiendo tu luz interior...</div>
+</div>
+
+<!-- ====== HOME SCREEN ====== -->
+<div class="screen active" id="screen-home">
+  <div class="sun-header">
+    <div class="sun-rays">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="50,4 57,36 85,20 66,46 96,50 66,54 85,80 57,64 50,96 43,64 15,80 34,54 4,50 34,46 15,20 43,36" fill="rgba(255,255,255,0.9)"/>
+        <circle cx="50" cy="50" r="21" fill="rgba(232,146,42,0.95)"/>
+        <text x="50" y="56" text-anchor="middle" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="white">S</text>
+      </svg>
+    </div>
+    <div class="logo-name">Solara</div>
+    <div class="logo-tagline">La Luz que Acompaña tu Mente</div>
+  </div>
+
+  <div class="home-body">
+    <div class="home-greeting" id="greeting">Buenos días</div>
+    <div class="home-title">¿Cómo está tu<br>luz interior hoy?</div>
+
+    <div class="daily-card" id="daily-content">
+      <div class="daily-label">✨ Frase del día</div>
+      <div class="daily-phrase" id="daily-phrase">Cargando tu luz diaria...</div>
+      <div class="daily-advice" id="daily-advice"></div>
+    </div>
+
+    <button class="btn-primary" onclick="startTest()">Comenzar Test Emocional</button>
+    <button class="btn-secondary" onclick="showScreen('screen-tips')">Ver Mis Consejos</button>
+  </div>
+  <div class="nav-spacer"></div>
+</div>
+
+<!-- ====== TEST SCREEN ====== -->
+<div class="screen" id="screen-test">
+  <div class="sun-header" style="padding:20px 24px 50px;">
+    <div class="logo-name" style="font-size:1.6rem;">Test Emocional</div>
+    <div class="logo-tagline">Conócete · Ilumínate · Crece</div>
+  </div>
+  <div class="test-container">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="question-num" id="q-num">Pregunta 1 de 8</div>
+    <div class="question-text" id="q-text"></div>
+    <div class="options-grid" id="options-grid"></div>
+  </div>
+  <div class="nav-spacer"></div>
+</div>
+
+<!-- ====== REPORT SCREEN ====== -->
+<div class="screen" id="screen-report">
+  <div class="sun-header" style="padding:20px 24px 50px;">
+    <div class="logo-name" style="font-size:1.6rem;">Tu Reporte Solar</div>
+    <div class="logo-tagline">Resultado de tu Test Emocional</div>
+  </div>
+  <div class="report-container">
+    <div class="report-badge">
+      <div class="report-emoji" id="rep-emoji">🌟</div>
+      <div class="report-score-num" id="rep-score">CALCULANDO</div>
+    </div>
+    <div class="report-title" id="rep-title">Tu Estado Solar</div>
+    <div class="report-subtitle" id="rep-sub">Basado en tus respuestas del test</div>
+
+    <div class="report-section">
+      <div class="section-label">📊 Tu Perfil Emocional</div>
+      <div class="area-bars" id="area-bars"></div>
+    </div>
+
+    <div class="report-section">
+      <div class="section-label">💡 Descripción</div>
+      <div class="report-text" id="rep-desc"></div>
+    </div>
+
+    <div class="report-section">
+      <div class="section-label">🌱 Recomendaciones para ti</div>
+      <div class="report-text" id="rep-recs"></div>
+    </div>
+
+    <button class="btn-primary" onclick="showScreen('screen-home')" style="margin:0 auto;display:block;">Ir al Inicio ☀️</button>
+    <button class="btn-secondary" onclick="startTest()" style="margin:12px auto 0;display:block;">Repetir Test</button>
+  </div>
+</div>
+
+<!-- ====== TIPS SCREEN ====== -->
+<div class="screen" id="screen-tips">
+  <div class="sun-header" style="padding:20px 24px 50px;">
+    <div class="logo-name" style="font-size:1.6rem;">Consejos Solares</div>
+    <div class="logo-tagline">Pequeños pasos, gran bienestar</div>
+  </div>
+  <div class="tips-grid" id="tips-container"></div>
+  <div class="nav-spacer"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="navTo('screen-home','nav-home')">
+    <span class="nav-icon">☀️</span><span class="nav-label">Inicio</span>
+  </button>
+  <button class="nav-btn" id="nav-test" onclick="navTo('screen-test','nav-test');startTest()">
+    <span class="nav-icon">🧠</span><span class="nav-label">Test</span>
+  </button>
+  <button class="nav-btn" id="nav-report" onclick="navTo('screen-report','nav-report')">
+    <span class="nav-icon">📊</span><span class="nav-label">Reporte</span>
+  </button>
+  <button class="nav-btn" id="nav-tips" onclick="navTo('screen-tips','nav-tips')">
+    <span class="nav-icon">💛</span><span class="nav-label">Consejos</span>
+  </button>
+</nav>
+
+<script>
+// ===== DATA =====
+const DAILY = [
+  { phrase: "Eres suficiente tal como eres en este momento.", advice: "Hoy practica la autocompasión: habla contigo como le hablarías a tu mejor amigo/a." },
+  { phrase: "Cada amanecer trae consigo una nueva oportunidad de crecer.", advice: "Empieza el día con 3 respiraciones profundas antes de revisar tu teléfono." },
+  { phrase: "Tu calma interior es tu mayor fortaleza.", advice: "Toma 5 minutos de silencio hoy. Sin pantallas, solo tú y tu respiración." },
+  { phrase: "Las emociones son mensajeras, no enemigas.", advice: "Si sientes algo difícil hoy, pregúntate: ¿qué me quiere decir esta emoción?" },
+  { phrase: "Pequeños pasos también son movimiento hacia adelante.", advice: "Elige una sola cosa pequeña que puedas hacer hoy por tu bienestar." },
+  { phrase: "Tu historia no te define; tus decisiones de hoy, sí.", advice: "Escribe una cosa por la que estés agradecido/a al terminar el día." },
+  { phrase: "Mereces el mismo amor que das a los demás.", advice: "Hoy date un pequeño regalo: tiempo para hacer algo que disfrutes." },
+];
+
+const QUESTIONS = [
+  { text: "¿Cómo describes tu estado de ánimo al despertar esta mañana?", area: "energia", options: [
+    { e:"😄", t:"Con energía y optimismo", v:4 },
+    { e:"🙂", t:"Tranquilo/a, sin grandes emociones", v:3 },
+    { e:"😐", t:"Un poco cansado/a pero bien", v:2 },
+    { e:"😔", t:"Pesado/a o sin ganas", v:1 },
+  ]},
+  { text: "¿Con qué frecuencia te sientes abrumado/a por tus responsabilidades?", area: "estres", options: [
+    { e:"🌟", t:"Casi nunca, me organizo bien", v:4 },
+    { e:"😌", t:"De vez en cuando", v:3 },
+    { e:"😰", t:"Bastante seguido", v:2 },
+    { e:"🌊", t:"Casi siempre, me cuesta mucho", v:1 },
+  ]},
+  { text: "¿Cómo es tu relación contigo mismo/a últimamente?", area: "autoestima", options: [
+    { e:"💛", t:"Me acepto y me trato con cariño", v:4 },
+    { e:"😊", t:"En general bien, con algunos momentos difíciles", v:3 },
+    { e:"🤔", t:"Me critico bastante", v:2 },
+    { e:"💔", t:"Me cuesta quererme o valorarme", v:1 },
+  ]},
+  { text: "¿Qué tan seguido sientes alegría genuina o momentos de disfrute?", area: "alegria", options: [
+    { e:"☀️", t:"Varias veces al día", v:4 },
+    { e:"😃", t:"Al menos una vez al día", v:3 },
+    { e:"😶", t:"Pocas veces a la semana", v:2 },
+    { e:"🌑", t:"Raramente en estos días", v:1 },
+  ]},
+  { text: "¿Cómo manejas las situaciones que te generan enojo o frustración?", area: "regulacion", options: [
+    { e:"🧘", t:"Con calma, busco entender antes de reaccionar", v:4 },
+    { e:"💬", t:"A veces exploto pero luego lo hablo", v:3 },
+    { e:"😤", t:"Me cuesta controlarlo", v:2 },
+    { e:"🔥", t:"Reacciono fuerte y me arrepiento", v:1 },
+  ]},
+  { text: "¿Sientes apoyo en las personas que te rodean?", area: "conexion", options: [
+    { e:"🤗", t:"Sí, me siento acompañado/a y escuchado/a", v:4 },
+    { e:"🙂", t:"Hay algunas personas de confianza", v:3 },
+    { e:"😞", t:"Me siento solo/a con frecuencia", v:2 },
+    { e:"😶", t:"Prefiero no hablar de mis cosas", v:1 },
+  ]},
+  { text: "¿Cómo has dormido en los últimos días?", area: "energia", options: [
+    { e:"😴", t:"Muy bien, me siento descansado/a", v:4 },
+    { e:"🛏️", t:"Regular, algunas noches mejor que otras", v:3 },
+    { e:"🌙", t:"Tengo dificultad para dormir o me desvelo", v:2 },
+    { e:"😩", t:"Muy mal, el sueño me falla constantemente", v:1 },
+  ]},
+  { text: "¿Cuánta esperanza sientes sobre tu futuro en este momento?", area: "alegria", options: [
+    { e:"🌅", t:"Mucha, me veo bien a futuro", v:4 },
+    { e:"🌤️", t:"Moderada, hay cosas buenas por venir", v:3 },
+    { e:"☁️", t:"Poca, el futuro me genera incertidumbre", v:2 },
+    { e:"🌧️", t:"Ninguna, me cuesta ver algo positivo", v:1 },
+  ]},
+];
+
+const AREAS = {
+  energia:    { label: "Energía & Vitalidad" },
+  estres:     { label: "Manejo del Estrés" },
+  autoestima: { label: "Autoestima" },
+  alegria:    { label: "Alegría & Esperanza" },
+  regulacion: { label: "Regulación Emocional" },
+  conexion:   { label: "Conexión Social" },
+};
+
+const PROFILES = [
+  { min:28, emoji:"🌟", title:"Luz Radiante", sub:"Tu bienestar emocional está en un gran momento",
+    desc:"Tu salud emocional brilla con intensidad. Tienes una base sólida de equilibrio interior, buena capacidad para manejar el estrés y una visión positiva de tu vida. Este es un momento para consolidar y celebrar lo que has construido.",
+    recs:"• Comparte tu energía positiva: apoya a alguien cercano.\n• Establece metas que te desafíen sin agotarte.\n• Practica la gratitud diaria para mantener esta luz encendida.\n• Cuida tus rutinas de sueño y movimiento."
+  },
+  { min:20, emoji:"🌤️", title:"Sol entre Nubes", sub:"Tu bienestar es bueno con algunos espacios que nutrir",
+    desc:"Tienes un núcleo emocional saludable, aunque algunas áreas de tu vida podrían recibir más atención. Hay momentos de claridad y otros de niebla. Con pequeños ajustes puedes expandir tu bienestar notablemente.",
+    recs:"• Identifica qué área específica se siente más apagada y enfócate ahí.\n• Habla con alguien de confianza sobre lo que te pesa.\n• Introduce una rutina de 10 minutos de autocuidado diario.\n• Reduce una fuente de estrés que sí puedas controlar."
+  },
+  { min:12, emoji:"🌥️", title:"Cielo Nublado", sub:"Tu interior pide más cuidado y atención",
+    desc:"Estás atravesando un momento de carga emocional. Tu energía se siente baja y algunos aspectos de tu bienestar necesitan apoyo. Esto no significa que estés roto/a, sino que es un momento de pausa y cuidado. Tienes la capacidad de salir adelante.",
+    recs:"• Busca un espacio seguro para expresar lo que sientes (diario, terapia, conversación).\n• No te exijas demasiado ahora mismo; la recuperación lleva tiempo.\n• Incorpora algo pequeño que te dé alivio: música, naturaleza, movimiento suave.\n• Considera hablar con un profesional si el peso es muy grande."
+  },
+  { min:0, emoji:"🌧️", title:"Necesitas Luz", sub:"Tu bienestar emocional necesita apoyo urgente",
+    desc:"Tu estado emocional actual es difícil y mereces apoyo. No estás solo/a en esto. Lo que sientes es válido, y pedir ayuda es un acto de valentía, no de debilidad. Hay personas y recursos que pueden acompañarte en este proceso.",
+    recs:"• Por favor habla con alguien hoy: un familiar, amigo/a o profesional.\n• Si estás en México: Línea de la Vida 800 911 2000 (gratuita, 24h).\n• No te enfrentes a esto solo/a; la ayuda existe y funciona.\n• Un paso a la vez; empieza por el más pequeño que puedas dar."
+  },
+];
+
+const TIPS = [
+  { icon:"🌞", title:"Respiración Solar", body:"Inhala 4 segundos, retén 4, exhala 8. Repite 5 veces. Activa tu sistema nervioso parasimpático y reduce el cortisol." },
+  { icon:"📓", title:"Diario de Gratitud", body:"Escribe cada noche 3 cosas por las que estás agradecido/a. La ciencia muestra que esto aumenta el bienestar en 4 semanas." },
+  { icon:"🚶", title:"Caminata Consciente", body:"15 minutos caminando sin teléfono, prestando atención a lo que ves, escuchas y sientes. Es meditación en movimiento." },
+  { icon:"🤝", title:"Conexión Humana", body:"Escribe o llama a alguien que extrañes hoy. Las relaciones sociales son el predictor #1 de bienestar a largo plazo." },
+  { icon:"🎨", title:"Expresión Creativa", body:"Dibuja, pinta, escribe o baila sin juzgarte. La expresión artística libera emociones que las palabras no pueden alcanzar." },
+  { icon:"🌿", title:"Contacto con la Naturaleza", body:"Pasa al menos 20 minutos en un parque o espacio verde. Estudios muestran reducción significativa de ansiedad y estrés." },
+  { icon:"💤", title:"Ritual de Sueño", body:"Apaga pantallas 30 min antes de dormir. La luz azul inhibe la melatonina y fragmenta el sueño profundo." },
+  { icon:"🧘", title:"Pausa de 3 Minutos", body:"Cuando sientas estrés, para, observa 3 cosas que ves, 2 que escuchas, 1 que sientes. Ancla tu mente al presente." },
+];
+
+// ===== STATE =====
+let currentQ = 0;
+let answers = [];
+let scores = {};
+
+// ===== INIT =====
+window.onload = () => {
+  loadDailyContent();
+  loadTips();
+  setTimeout(() => {
+    document.getElementById('loading').classList.add('hidden');
+  }, 2200);
+
+  // Greeting
+  const h = new Date().getHours();
+  const g = h < 12 ? "Buenos días" : h < 19 ? "Buenas tardes" : "Buenas noches";
+  document.getElementById('greeting').textContent = g;
+};
+
+function loadDailyContent() {
+  const idx = new Date().getDay();
+  const d = DAILY[idx % DAILY.length];
+  document.getElementById('daily-phrase').textContent = `"${d.phrase}"`;
+  document.getElementById('daily-advice').textContent = `💛 ${d.advice}`;
+}
+
+function loadTips() {
+  const c = document.getElementById('tips-container');
+  TIPS.forEach(t => {
+    c.innerHTML += `<div class="tip-card">
+      <div class="tip-icon">${t.icon}</div>
+      <div><div class="tip-title">${t.title}</div><div class="tip-body">${t.body}</div></div>
+    </div>`;
+  });
+}
+
+// ===== NAVIGATION =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function navTo(screenId, navId) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(navId).classList.add('active');
+  if(screenId !== 'screen-test') showScreen(screenId);
+}
+
+// ===== TEST =====
+function startTest() {
+  currentQ = 0;
+  answers = [];
+  scores = {};
+  showScreen('screen-test');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-test').classList.add('active');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const pct = (currentQ / QUESTIONS.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('q-num').textContent = `Pregunta ${currentQ+1} de ${QUESTIONS.length}`;
+  document.getElementById('q-text').textContent = q.text;
+
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  q.options.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-emoji">${o.e}</span><span>${o.t}</span>`;
+    btn.onclick = () => selectOption(i, o.v, q.area);
+    grid.appendChild(btn);
+  });
+}
+
+function selectOption(i, value, area) {
+  document.querySelectorAll('.option-btn').forEach((b,j) => {
+    b.classList.toggle('selected', j===i);
+  });
+  setTimeout(() => {
+    answers.push({ area, value });
+    scores[area] = (scores[area] || 0) + value;
+    currentQ++;
+    if(currentQ < QUESTIONS.length) {
+      renderQuestion();
+    } else {
+      buildReport();
+    }
+  }, 350);
+}
+
+// ===== REPORT =====
+function buildReport() {
+  const total = answers.reduce((s, a) => s + a.value, 0);
+  const profile = PROFILES.find(p => total >= p.min);
+
+  document.getElementById('rep-emoji').textContent = profile.emoji;
+  document.getElementById('rep-score').textContent = `${total}/32 PUNTOS`;
+  document.getElementById('rep-title').textContent = profile.title;
+  document.getElementById('rep-sub').textContent = profile.sub;
+  document.getElementById('rep-desc').textContent = profile.desc;
+  document.getElementById('rep-recs').innerHTML = profile.recs.split('\n').map(r => `<div style="margin-bottom:6px">${r}</div>`).join('');
+
+  // Area bars
+  const barsEl = document.getElementById('area-bars');
+  barsEl.innerHTML = '';
+  const areaCounts = {};
+  answers.forEach(a => {
+    if(!areaCounts[a.area]) areaCounts[a.area] = { total:0, count:0 };
+    areaCounts[a.area].total += a.value;
+    areaCounts[a.area].count++;
+  });
+  Object.entries(areaCounts).forEach(([area, data]) => {
+    const pct = Math.round((data.total / (data.count * 4)) * 100);
+    const info = AREAS[area] || { label: area };
+    barsEl.innerHTML += `
+      <div class="area-row">
+        <div class="area-name">${info.label} <span style="float:right;color:var(--red);font-weight:700">${pct}%</span></div>
+        <div class="area-track"><div class="area-fill" style="width:0%" data-w="${pct}%"></div></div>
+      </div>`;
+  });
+
+  showScreen('screen-report');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-report').classList.add('active');
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.area-fill').forEach(el => {
+      el.style.width = el.getAttribute('data-w');
+    });
+  }, 300);
+}
+</script>
+</body>
+</html>
